@@ -70,7 +70,7 @@ module.exports = route;
 function test(body) {
    sgMail.setApiKey(sendGridKey)
    const msg = {
-      to: 'anthonyamaro705@gmail.com',
+      to: body.contactEmail,
       from: sender, 
       subject: 'Your Loan Application Status',
       text: 'important',
