@@ -5,9 +5,9 @@ const { gmailUser, gmailPassword } = require('../envVariables');
 
 const route = express.Router();
 
-route.post("/", (req, res) => {
-   const { applicationNumber, name,  email } = req.body;
-   followUpEmail({ applicationNumber, name,  email });
+route.post("/", async (req, res) => {
+   const { applicationNumber, firstName,  contactEmail } = req.body;
+   await followUpEmail({ applicationNumber, firstName,  contactEmail });
    res.status(200).json({ message: "email sent!" });
 });
 
@@ -22,7 +22,7 @@ async function followUpEmail(body) {
 
    const info = await transporter.sendMail({
       from: "loans@onenevada.org",
-      to: body.email,
+      to: body.contactEmail,
       subject: "Your Loan Application Status",
       html: applicationTemplate(body)
    });
