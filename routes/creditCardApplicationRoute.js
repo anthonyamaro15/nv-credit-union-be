@@ -5,12 +5,15 @@ const { gmailUser, gmailPassword } = require('../envVariables');
 
 const route = express.Router();
 
-
-
 route.post("/create", async (req, res) => {
    const { applicationNumber, firstName,  contactEmail } = req.body;
-   await followUpEmail({ applicationNumber, firstName,  contactEmail });
-   res.status(200).json({ message: "email sent!" });
+   try {
+      await followUpEmail({ applicationNumber, firstName,  contactEmail });
+      res.status(201).json({ message: "email sent!" });      
+   } catch (error) {
+      res.status(500).json({ errorMessage: error.message });
+   }
+
 });
 
 async function followUpEmail(body) {
