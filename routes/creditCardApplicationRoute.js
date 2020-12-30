@@ -1,38 +1,65 @@
 const express = require("express");
-const nodemailer = require('nodemailer');
 const applicationTemplate = require('../emailTemplates/creditCardApplicationTemplate');
-const { gmailUser, gmailPassword } = require('../envVariables');
+const { sendGridKey, sender } = require('../envVariables');
+const axios = require('axios');
 
 const route = express.Router();
 
 route.post("/create", async (req, res) => {
    const { applicationNumber, firstName,  contactEmail } = req.body;
    try {
-      await followUpEmail({ applicationNumber, firstName,  contactEmail });
+      callMethod({applicationNumber, firstName,  contactEmail})
       res.status(201).json({ message: "email sent!" });      
    } catch (error) {
       res.status(500).json({ errorMessage: error.message });
    }
-
 });
 
-async function followUpEmail(body) {
-   const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-         user: gmailUser,
-         pass: gmailPassword
+const obj = {
+  subject: "Your Loan Application Status",
+  heading: "Welcome to my Page",
+  description: "here is an example of the data im gonna be sending to you",
+};
+
+
+const callMethod = (body) => {
+   axios({
+      method: 'POST',
+      url: 'https://api.sendgrid.com/v3/mail/send',
+      headers: {
+         'content-type': 'application/json',
+         Authorization: sendGridKey
       },
-   });
-
-   const info = await transporter.sendMail({
-      from: "loans@onenevada.org",
-      to: body.contactEmail,
-      subject: "Your Loan Application Status",
-      html: applicationTemplate(body)
-   });
-
-   console.log('message sent: %s', info.messageId);
-}
+      data: {
+         personalizations: [
+            {
+               to: [
+                  {
+                     email: body.contactEmail,
+                     name: body.firstName
+                  },
+               ],
+               subject: obj.subject
+            },
+         ],
+         from: {
+            email: sender,
+            name: "loans@onenevada.org"
+         },
+         content: [
+            {
+               type: 'text/html',
+               value: applicationTemplate(body)
+            }
+         ]
+      }
+   })
+   .then((res) => {
+      console.log(res.status);
+   })
+   .catch((error) => {
+      console.log( error.response);
+   })
+};
 
 module.exports = route;
