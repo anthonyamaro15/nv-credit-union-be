@@ -5,6 +5,8 @@ const { gmailUser, gmailPassword } = require('../envVariables');
 
 const route = express.Router();
 
+
+
 route.post("/", async (req, res) => {
    const { applicationNumber, firstName,  contactEmail } = req.body;
    await followUpEmail({ applicationNumber, firstName,  contactEmail });
