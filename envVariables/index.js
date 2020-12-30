@@ -6,6 +6,9 @@ const resetPassword = process.env.RESET_PASS;
 const sendTo = process.env.SEND_TO;
 const clientUrl = process.env.CLIENT_URL;
 
+const sendGridKey = process.env.SENDGRID_KEY;
+const sender = process.env.SENDER;
+
 module.exports = {
    rounds,
    secret_jtw,
@@ -13,5 +16,7 @@ module.exports = {
    gmailPassword,
    resetPassword,
    sendTo,
-   clientUrl
+   clientUrl,
+   sendGridKey,
+   sender
 }
