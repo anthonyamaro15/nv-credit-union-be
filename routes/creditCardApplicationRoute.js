@@ -7,7 +7,7 @@ const route = express.Router();
 
 
 
-route.post("/", async (req, res) => {
+route.post("/create", async (req, res) => {
    const { applicationNumber, firstName,  contactEmail } = req.body;
    await followUpEmail({ applicationNumber, firstName,  contactEmail });
    res.status(200).json({ message: "email sent!" });
