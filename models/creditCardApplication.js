@@ -16,8 +16,13 @@ const create = (application) => {
    return db("credit_card_application").insert(application, 'id');
 }
 
+const remove = (id) => {
+   return db("credit_card_application").where({ id }).del();
+}
+
 module.exports = {
    getById,
    getBy,
-   create
+   create,
+   remove
 }

@@ -2,7 +2,7 @@ const express = require("express");
 const applicationTemplate = require('../emailTemplates/creditCardApplicationTemplate');
 const { sendGridKey, sender } = require('../envVariables');
 const sgMail = require('@sendgrid/mail');
-const { create, getBy } = require('../models/creditCardApplication');
+const { create, getBy, remove } = require('../models/creditCardApplication');
 
 const route = express.Router();
 
@@ -35,7 +35,18 @@ route.post("/status", async (req, res) => {
    } catch (error) {
       res.status(500).json({ errorMessage: error.message });
    }
-})
+});
+
+route.delete("/delete/:id", async (req, res) => {
+   const { id } = req.params;
+
+   try {
+      await remove(id);
+      res.status(200).json({ message: 'application removed! ' });
+   } catch (error) {
+      res.status(500).json({ errorMessage: error.message });
+   }
+});
 
 function sendEmail(body) {
    sgMail.setApiKey(sendGridKey)
