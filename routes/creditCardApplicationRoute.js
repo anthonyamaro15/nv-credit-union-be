@@ -28,7 +28,7 @@ route.post("/status", async (req, res) => {
       const [ bySSN ] = await getBy({ ssn });
 
       if(byLastName && byEmail && bySSN) {
-         res.status(200).json(bySSN);
+         res.status(200).json({...bySSN, status: 'pending'});
       } else {
          res.status(404).json({ errorMessage: "Unable to find application" });
       }
