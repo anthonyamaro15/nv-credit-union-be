@@ -1,3 +1,5 @@
+const { clientUrl } = require('../envVariables');
+
 const creditCardApplicationTemplate = body => {
    return`
       <head>
@@ -139,11 +141,11 @@ const creditCardApplicationTemplate = body => {
    </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="fa8c6aae-d2ae-4a6f-b9a2-b0475669befc" data-mc-module-version="2019-10-22">
       <tbody>
          <tr>
-         <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">Dear ${body.firstName.toUpperCase()},</span></div>
+         <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">Dear ${body.lastName.toUpperCase()},</span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
    <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">Thanks so much for choosing One Nevada Credit Union for your loan needs.</span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
-   <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">We're currently reviewing your loan application #${body.applicationNumber}, and we'll notify you by email within two business days as to the status of your application., You may check your application status any time at <a href="www.google.com">wesite</a></span></div>
+   <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">We're currently reviewing your loan application #${body.applicationNumber}, and we'll notify you by email within two business days as to the status of your application., You may check your application status any time at <a href="${clientUrl}">wesite</a></span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
    <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">If you have any questions or need additional information, please give us a call at 800-388-3000. Once again, thanks for considering us for your loan needs.</span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
