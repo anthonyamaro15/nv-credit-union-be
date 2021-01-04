@@ -10,6 +10,10 @@ server.use(express.json());
 server.use(cors());
 server.use(heltmet());
 
+server.get("/", (req, res) => {
+   res.status(200).json({ message: "heroku is awake!" });
+});
+
 server.use("/credit_card_application", creditCardApplicationRoute);
 
 module.exports = server;
