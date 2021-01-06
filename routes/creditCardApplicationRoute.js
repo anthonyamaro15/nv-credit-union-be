@@ -6,9 +6,13 @@ const { create, getBy, remove } = require('../models/creditCardApplication');
 
 const route = express.Router();
 
+// POST credit_card_application/create
 route.post("/create", async (req, res) => {
    const { applicationNumber, lastName,  contactEmail, ssn } = req.body;
    const savedValues = { applicationNumber, lastName,  contactEmail, ssn };
+
+   // at the moment application number last name email and ssn is all we need
+   // to have the app working, 
    try {
       await create(savedValues);
       sendEmail(savedValues);
