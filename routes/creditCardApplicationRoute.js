@@ -8,7 +8,8 @@ const route = express.Router();
 
 // POST credit_card_application/create
 route.post("/create", async (req, res) => {
-   const { applicationNumber, lastName,  contactEmail, ssn } = req.body;
+   let { applicationNumber, lastName,  contactEmail, ssn } = req.body;
+   lastName = lastName.toLowerCase();
    const savedValues = { applicationNumber, lastName,  contactEmail, ssn };
 
    // at the moment application number last name email and ssn is all we need
@@ -24,7 +25,8 @@ route.post("/create", async (req, res) => {
 
 
 route.post("/status", async (req, res) => {
-   const { lastName, contactEmail, ssn } = req.body;
+   let { lastName, contactEmail, ssn } = req.body;
+   lastName = lastName.toLowerCase();
 
    try {
       const [ byLastName ] = await getBy({ lastName });
