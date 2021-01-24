@@ -1,18 +1,23 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { rounds } = require('../envVariables');
+const { generateToken, generateAccNumber } = require('../middlewares');
 const { 
    addUser, 
    filterBy, 
    remove, 
    update 
 } = require('../models/usersModel');
-const { rounds } = require('../envVariables');
-const { generateToken, generateAccNumber} = require('../middlewares');
+const { 
+   validateId, 
+   validateLogin, 
+   checkIfEmailExist 
+} = require('../middlewares/validateUser');
 
 const route = express.Router();
 
 // @POST auth/register
-route.post('/register', async (req, res) => {
+route.post('/register', checkIfEmailExist, async (req, res) => {
    const userData = req.body;
 
    const hashSSN = bcrypt.hashSync(userData.SSNNumber, rounds);
@@ -31,7 +36,7 @@ route.post('/register', async (req, res) => {
 });
 
 // @POST auth/login
-route.post('/login', async (req, res) => {
+route.post('/login', validateLogin, async (req, res) => {
    const { email, password } = req.body;
 
    try {
@@ -48,7 +53,7 @@ route.post('/login', async (req, res) => {
 });
 
 // @PATCH auth/update/:id
-route.patch('/update/:id', async (req, res) => {
+route.patch('/update/:id', validateId, async (req, res) => {
    const { id } = req.params;
 
    try {
@@ -60,7 +65,7 @@ route.patch('/update/:id', async (req, res) => {
 });
 
 // @DELETE auth/remove-account/:id
-route.delete('/remove-account/:id', async (req, res) => {
+route.delete('/remove-account/:id', validateId, async (req, res) => {
    const { id } = req.params;
 
    try {
