@@ -2,7 +2,9 @@ const express  = require('express');
 const cors = require('cors');
 const heltmet = require('helmet');
 
+const authUserRoute = require('../routes/authUserRoute');
 const creditCardApplicationRoute = require('../routes/creditCardApplicationRoute');
+
 
 const server = express();
 
@@ -14,6 +16,7 @@ server.get("/", (req, res) => {
    res.status(200).json({ message: "heroku is awake!" });
 });
 
+server.use('/auth', authUserRoute);
 server.use("/credit_card_application", creditCardApplicationRoute);
 
 module.exports = server;
