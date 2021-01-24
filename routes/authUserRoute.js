@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { rounds } = require('../envVariables');
+const sgMail = require('@sendgrid/mail');
+const { rounds, sender, sendGridKey } = require('../envVariables');
+const newUserTemplate = require('../emailTemplates/newUserTemplate');
 const { generateToken, generateAccNumber } = require('../middlewares');
 const { 
    addUser, 
@@ -29,6 +31,7 @@ route.post('/register', checkIfEmailExist, async (req, res) => {
 
    try {
       await addUser(userData);
+      sendEmail(userData);
       res.status(201).json({ message: "User was created."});
    } catch (error) {
       res.status(500).json({ errorMessage: error.message });
@@ -75,5 +78,25 @@ route.delete('/remove-account/:id', validateId, async (req, res) => {
       res.status(500).json({ errorMessage: error.message });
    }
 });
+
+
+function sendEmail(body) {
+   sgMail.setApiKey(sendGridKey)
+   const msg = {
+      to: body.email,
+      from: sender, 
+      subject: 'About your new account',
+      text: 'important',
+      html: newUserTemplate(body),
+   }
+   sgMail
+      .send(msg)
+      .then(() => {
+         console.log('Email sent')
+   })
+      .catch((error) => {
+         console.error(error)
+   })
+}
 
 module.exports = route;
