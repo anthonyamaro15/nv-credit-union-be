@@ -8,7 +8,7 @@ const {
    addUser, 
    filterBy, 
    remove, 
-   update 
+   update,
 } = require('../models/usersModel');
 const { 
    validateId, 
@@ -58,10 +58,20 @@ route.post('/login', validateLogin, async (req, res) => {
 // @PATCH auth/update/:id
 route.patch('/update/:id', validateId, async (req, res) => {
    const { id } = req.params;
+   const changes = req.body;
 
    try {
-      await update(id, req.body);
-      res.status(200).json({ message: "User updated"});
+      if(changes.email) {
+         res.status(400).json({ errorMessage: "Not allow to change email at this time"});
+      } else if(changes.password) {
+         const hashPassword = bcrypt.hashSync(changes.password, rounds);
+         changes.password = hashPassword;
+         await update(id, changes);
+         res.status(200).json({ message: "Password updated" });
+      } else {
+         await update(id, req.body);
+         res.status(200).json({ message: "User updated" });
+      }
    } catch (error) {
       res.status(500).json({ errorMessage: error.message });
    }

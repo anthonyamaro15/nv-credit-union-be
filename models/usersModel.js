@@ -1,5 +1,9 @@
 const db = require('../data/configDb');
 
+const getAll = () => {
+   return db('users');
+}
+
 const addUser = (user) => {
    return db('users').insert(user, 'id');
 }
@@ -24,5 +28,6 @@ module.exports = {
    getById,
    filterBy,
    update,
-   remove
+   remove,
+   getAll
 }
