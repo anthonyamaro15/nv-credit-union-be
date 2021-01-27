@@ -3,6 +3,7 @@ const cors = require('cors');
 const heltmet = require('helmet');
 
 const authUserRoute = require('../routes/authUserRoute');
+const userResetPasswordRoute = require('../routes/userResetPasswordRoute');
 const creditCardApplicationRoute = require('../routes/creditCardApplicationRoute');
 
 
@@ -17,6 +18,7 @@ server.get("/", (req, res) => {
 });
 
 server.use('/auth', authUserRoute);
+server.use('/auth', userResetPasswordRoute);
 server.use("/credit_card_application", creditCardApplicationRoute);
 
 module.exports = server;

@@ -31,7 +31,6 @@ async function checkIfEmailExist(req, res, next) {
    try {
       const user = await filterBy({ email });
 
-      console.log('what is this? ', user);
       if(user.length) {
          res.status(400).json({ errorMessage: "Email already exist, please try another one" });
       } else {

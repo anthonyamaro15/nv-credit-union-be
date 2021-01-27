@@ -145,7 +145,7 @@ const creditCardApplicationTemplate = body => {
    <div style="font-family: inherit; text-align: inherit"><br></div>
    <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">Thanks so much for choosing One Nevada Credit Union for your loan needs.</span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
-   <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">We're currently reviewing your loan application #${body.applicationNumber}, and we'll notify you by email within two business days as to the status of your application., You may check your application status any time at <a href="${clientUrl}">wesite</a></span></div>
+   <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">We're currently reviewing your loan application #${body.applicationNumber}, and we'll notify you by email within two business days as to the status of your application., You may check your application status any time at <a href="${clientUrl}/application-status">wesite</a></span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
    <div style="font-family: inherit; text-align: inherit"><span style="font-size: 14px">If you have any questions or need additional information, please give us a call at 800-388-3000. Once again, thanks for considering us for your loan needs.</span></div>
    <div style="font-family: inherit; text-align: inherit"><br></div>
