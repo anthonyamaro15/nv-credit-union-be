@@ -135,7 +135,7 @@ function sendEmail(body) {
 }
 
 function hashAccuntNumber(accountNumber) {
-   const hashValue = "****" + String(accountNumber).slice(8);
+   const hashValue = "****" + String(accountNumber).slice(6);
    return hashValue;
 }
 

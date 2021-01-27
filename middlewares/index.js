@@ -13,7 +13,7 @@ function generateToken(user) {
 }
 
 function generateAccNumber() {
-   return Math.floor(Math.random() * 9999999999) + 1;
+   return Math.floor(Math.random() * 999999999) + 1;
 }
 
 module.exports = {
