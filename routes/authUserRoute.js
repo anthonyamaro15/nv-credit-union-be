@@ -9,6 +9,7 @@ const {
    filterBy, 
    remove, 
    update,
+   getUserDataById
 } = require('../models/usersModel');
 const { 
    validateId, 
@@ -17,6 +18,27 @@ const {
 } = require('../middlewares/validateUser');
 
 const route = express.Router();
+
+//@GET auth/get-user/:id
+route.get('/user/:id', validateId, async (req, res) => {
+   const { id } = req.params;
+
+   try {
+      const [user] = await getUserDataById(id);
+      const updatedData = {
+         ...user, 
+         accountNumber : hashAccuntNumber(user.accountNumber),
+         email: user.email.toUpperCase(),
+         addressLineOne: user.addressLineOne.toUpperCase(),
+         addressLineTwo: user.addressLineTwo.toUpperCase(),
+         state: user.state.toUpperCase(),
+         city: user.city.toUpperCase()
+      }
+      res.status(200).json(updatedData);
+   } catch (error) {
+      res.status(500).json({ errorMessage: error.message });
+   }
+});
 
 // @POST auth/register
 route.post('/register', checkIfEmailExist, async (req, res) => {
@@ -27,6 +49,7 @@ route.post('/register', checkIfEmailExist, async (req, res) => {
    userData.SSNNumber = hashSSN;
    userData.password = hashPassword;
    userData.accountNumber = generateAccNumber();
+   userData.routingNumber = generateAccNumber();
    userData.pin = 0;
 
    try {
@@ -38,15 +61,17 @@ route.post('/register', checkIfEmailExist, async (req, res) => {
    }
 });
 
+
 // @POST auth/login
 route.post('/login', validateLogin, async (req, res) => {
    const { email, password } = req.body;
 
    try {
       const [user] = await filterBy({ email });
+
       if(user && bcrypt.compareSync(password, user.password)) {
          const token = generateToken(user);
-         res.status(200).json({ token });
+         res.status(200).json({ token, id: user.id });
       } else {
          res.status(404).json({ errorMessage: "Invalid email or password" }); 
       }
@@ -107,6 +132,11 @@ function sendEmail(body) {
       .catch((error) => {
          console.error(error)
    })
+}
+
+function hashAccuntNumber(accountNumber) {
+   const hashValue = "****" + String(accountNumber).slice(8);
+   return hashValue;
 }
 
 module.exports = route;

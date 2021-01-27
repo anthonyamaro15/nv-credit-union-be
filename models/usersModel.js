@@ -12,6 +12,14 @@ const getById = (id) => {
    return db('users').where({ id });
 }
 
+const getUserDataById = (id) => {
+   return db("users as u").where({ id })
+   .select("u.firstName", "u.lastName", "u.middleName",
+   "u.lastName", "u.email", "u.addressLineOne", "u.addressLineTwo",
+   "u.aparmentNumber", "u.city", "u.state", "u.zip",
+   "u.accountNumber", "u.routingNumber");
+}
+
 const filterBy = (filter) => {
    return db("users").where(filter);
 }
@@ -26,6 +34,7 @@ const remove = (id) => {
 module.exports = {
    addUser,
    getById,
+   getUserDataById,
    filterBy,
    update,
    remove,

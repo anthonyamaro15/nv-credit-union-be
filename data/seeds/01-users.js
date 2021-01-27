@@ -33,6 +33,7 @@ exports.seed = function(knex) {
            employerName: 'Old Job',
            occupation: 'cook',
            accountNumber: '12345678',
+           routingNumber: '12343212',
            pin: 0,
            resetLink: null
         },
@@ -63,6 +64,7 @@ exports.seed = function(knex) {
            employerName: 'Old Job',
            occupation: 'cook',
            accountNumber: '12345678',
+           routingNumber: '12343212',
            pin: 0,
            resetLink: null
          },
