@@ -13,6 +13,7 @@ const {
 
 const route = express.Router();
 
+// @PATCH /auth/forgot-password
 route.patch('/forgot-password', async (req, res) => {
    const { email } = req.body;
 
@@ -25,6 +26,9 @@ route.patch('/forgot-password', async (req, res) => {
       if(!user) {
          res.status(404).json({ errorMessage: "Invalid email" })
       } else {
+         // if email exist then create a temporary token and
+         // store it in the database and send user an email 
+         // to reset their password
          const resetLink = jwt.sign({ user: user.email }, resetPassword, { expiresIn: '10m' });
          await update(user.id, { resetLink });
          sendEmail(user, resetLink);
@@ -36,6 +40,7 @@ route.patch('/forgot-password', async (req, res) => {
    }
 });
 
+// @PATCH /auth/reset-password/:token
 route.patch('/reset-password/:token', async (req, res) => {
    const resetLink = req.params.token;
    const newPassword = req.body;
@@ -53,9 +58,11 @@ route.patch('/reset-password/:token', async (req, res) => {
       if(!user) {
          res.status(400).json({ errorMessage: "We could not find a match for this link" });
       }
+      // if token matches then hash password befeore saving it
       const hashPassword = bcrypt.hashSync(newPassword.password, rounds);
       newPassword.password = hashPassword;
 
+      // remove reset token before saving
       const updatedCredentials = {
          password: newPassword.password,
          resetLink: null
