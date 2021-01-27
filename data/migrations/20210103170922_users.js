@@ -26,7 +26,8 @@ exports.up = function(knex) {
       table.string('expirationDate', 128).notNullable();
       table.string('employerName', 128).notNullable();
       table.string('occupation', 128).notNullable();
-      table.string('accountNumber', 128).notNullable();
+      table.integer('accountNumber').notNullable();
+      table.integer("routingNumber").notNullable();
       table.integer('pin');
       table.string('resetLink', 255);
       table.timestamp("createdAt").defaultTo(knex.fn.now());
