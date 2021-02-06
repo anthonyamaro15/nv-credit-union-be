@@ -5,6 +5,7 @@ const heltmet = require('helmet');
 const authUserRoute = require('../routes/authUserRoute');
 const userResetPasswordRoute = require('../routes/userResetPasswordRoute');
 const creditCardApplicationRoute = require('../routes/creditCardApplicationRoute');
+const preApprovalRoutes = require('../routes/preApprovalRoutes');
 
 
 const server = express();
@@ -20,5 +21,6 @@ server.get("/", (req, res) => {
 server.use('/auth', authUserRoute);
 server.use('/auth', userResetPasswordRoute);
 server.use("/credit_card_application", creditCardApplicationRoute);
+server.use('/preapproval', preApprovalRoutes);
 
 module.exports = server;

@@ -30,6 +30,7 @@
     "knex": "^0.21.15",
     "nodemailer": "^6.4.17",
     "pg": "^8.5.1",
+    "redis": "^3.0.2",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
