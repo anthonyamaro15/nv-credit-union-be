@@ -25,17 +25,26 @@ route.post('/application', validatePreapprovalData, async (req, res) => {
             ssn === applicationData.ssn && 
             firstName === applicationData.firstName
             ) {
-            res.status(200).json({ message: 'You recently were pre approved, you can apply now' });
+            let response = {
+               message: 'You recently submitted an approval application',
+               firstName: applicationData.firstName,
+               approved: applicationData.approved
+            }
+            res.status(200).json(response);
          }
       } else {
          // added to redis, set expiration time in 1 day
          // add logic to send back a response if client was approved or not
          const result = makeADecision(req.body);
-         const response = {
-            firstName: req.body.firstName,
+         const updatedData = {
+            ...req.body,
             approved: result
          }
-         client.setex(`${email}`, 1440, JSON.stringify(req.body));
+         const response = { 
+            firstName: updatedData.firstName, 
+            approved: updatedData.approved 
+         }
+         client.setex(`${email}`, 1440, JSON.stringify(updatedData));
          res.status(200).json(response);
       }          
    });
